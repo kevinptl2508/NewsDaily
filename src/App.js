@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './App.css';
 import Navbar from './Components/Navbar';
 import News from './Components/News';
 import {
@@ -7,18 +6,24 @@ import {
   Switch,
   Route
 } from "react-router-dom";
+import LoadingBar from 'react-top-loading-bar'
 
 export default class App extends Component {
-
-  pageSize = 15;
 
   constructor() {
     super();
     this.state = {
-      mode: 'light'
+      mode: 'light',
+      progress: 0
     }
   }
+  pageSize = 15;
 
+  setProgress = (progress) => {
+    this.setState({
+      progress: progress
+    })
+  }
   darkMode = () => {
     if (this.state.mode === 'light') {
       this.setState({ mode: 'dark' });
@@ -34,28 +39,33 @@ export default class App extends Component {
     return (
       <div>
         <Router>
+          <LoadingBar
+            color='rgb(13,110,253)'
+            progress={this.state.progress}
+            height={3}
+          />
           <Navbar mode={this.state.mode} darkMode={this.darkMode} />
           <Switch>
             <Route exact path="/">
-              <News key='general' pageSize={this.pageSize} mode={this.state.mode} country='in' category='general' />
+              <News setProgress={this.setProgress} key='general' pageSize={this.pageSize} mode={this.state.mode} country='in' category='general' />
             </Route>
             <Route exact path="/business">
-              <News key='business' pageSize={this.pageSize} mode={this.state.mode} country='in' category='business' />
+              <News setProgress={this.setProgress} key='business' pageSize={this.pageSize} mode={this.state.mode} country='in' category='business' />
             </Route>
             <Route exact path="/entertainment">
-              <News key='entertainment' pageSize={this.pageSize} mode={this.state.mode} country='in' category='entertainment' />
+              <News setProgress={this.setProgress} key='entertainment' pageSize={this.pageSize} mode={this.state.mode} country='in' category='entertainment' />
             </Route>
             <Route exact path="/health">
-              <News key='health' pageSize={this.pageSize} mode={this.state.mode} country='in' category='health' />
+              <News setProgress={this.setProgress} key='health' pageSize={this.pageSize} mode={this.state.mode} country='in' category='health' />
             </Route>
             <Route exact path="/science">
-              <News key='science' pageSize={this.pageSize} mode={this.state.mode} country='in' category='science' />
+              <News setProgress={this.setProgress} key='science' pageSize={this.pageSize} mode={this.state.mode} country='in' category='science' />
             </Route>
             <Route exact path="/sports">
-              <News key='sports' pageSize={this.pageSize} mode={this.state.mode} country='in' category='sports' />
+              <News setProgress={this.setProgress} key='sports' pageSize={this.pageSize} mode={this.state.mode} country='in' category='sports' />
             </Route>
             <Route exact path="/technology">
-              <News key='technology' pageSize={this.pageSize} mode={this.state.mode} country='in' category='technology' />
+              <News setProgress={this.setProgress} key='technology' pageSize={this.pageSize} mode={this.state.mode} country='in' category='technology' />
             </Route>
           </Switch>
         </Router>
