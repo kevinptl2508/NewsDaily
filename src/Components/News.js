@@ -71,10 +71,6 @@ export class News extends Component {
     //     await this.updateNews();
     // }
 
-    // API KEYS 
-    // 1601656c7b3646e39b1ba950b59209f5
-    // efbb14b55a8b43bdbadceee2265ff050
-
     fetchMoreData = async () => {
         let { pageSize, country, category, apiKey } = this.props;
         this.setState({
