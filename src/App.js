@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import Navbar from './Components/Navbar';
 import News from './Components/News';
 import {
@@ -8,69 +8,63 @@ import {
 } from "react-router-dom";
 import LoadingBar from 'react-top-loading-bar'
 
-export default class App extends Component {
+const App = () => {
 
-  constructor() {
-    super();
-    this.state = {
-      mode: 'light',
-      progress: 0
-    }
-  }
-  pageSize = 15;
-  apiKey = process.env.REACT_APP_NEWS_API;
+  const [mode, setMode] = useState('light');
+  const [progress, setProgress] = useState(0);
+  const pageSize = 15;
+  const apiKey = process.env.REACT_APP_NEWS_API2;
 
-  setProgress = (progress) => {
-    this.setState({
-      progress: progress
-    })
+  const setProgressOfLoadingBar = (progress) => {
+    setProgress(progress);
   }
-  darkMode = () => {
-    if (this.state.mode === 'light') {
-      this.setState({ mode: 'dark' });
+
+  const darkMode = () => {
+    if (mode === 'light') {
+      setMode('dark');
       document.body.style.backgroundColor = 'rgb(72,75,78)';
     }
     else {
-      this.setState({ mode: 'light' });
+      setMode('light');
       document.body.style.backgroundColor = 'white';
     }
   }
 
-  render() {
-    return (
-      <div>
-        <Router>
-          <LoadingBar
-            color='rgb(13,110,253)'
-            progress={this.state.progress}
-            height={3}
-          />
-          <Navbar mode={this.state.mode} darkMode={this.darkMode} />
-          <Switch>
-            <Route exact path="/">
-              <News setProgress={this.setProgress} apiKey={this.apiKey} key='general' pageSize={this.pageSize} mode={this.state.mode} country='in' category='general' />
-            </Route>
-            <Route exact path="/business">
-              <News setProgress={this.setProgress} apiKey={this.apiKey} key='business' pageSize={this.pageSize} mode={this.state.mode} country='in' category='business' />
-            </Route>
-            <Route exact path="/entertainment">
-              <News setProgress={this.setProgress} apiKey={this.apiKey} key='entertainment' pageSize={this.pageSize} mode={this.state.mode} country='in' category='entertainment' />
-            </Route>
-            <Route exact path="/health">
-              <News setProgress={this.setProgress} apiKey={this.apiKey} key='health' pageSize={this.pageSize} mode={this.state.mode} country='in' category='health' />
-            </Route>
-            <Route exact path="/science">
-              <News setProgress={this.setProgress} apiKey={this.apiKey} key='science' pageSize={this.pageSize} mode={this.state.mode} country='in' category='science' />
-            </Route>
-            <Route exact path="/sports">
-              <News setProgress={this.setProgress} apiKey={this.apiKey} key='sports' pageSize={this.pageSize} mode={this.state.mode} country='in' category='sports' />
-            </Route>
-            <Route exact path="/technology">
-              <News setProgress={this.setProgress} apiKey={this.apiKey} key='technology' pageSize={this.pageSize} mode={this.state.mode} country='in' category='technology' />
-            </Route>
-          </Switch>
-        </Router>
-      </div>
-    )
-  }
+  return (
+    <div>
+      <Router>
+        <LoadingBar
+          color='rgb(13,110,253)'
+          progress={progress}
+          height={3}
+        />
+        <Navbar mode={mode} darkMode={darkMode} />
+        <Switch>
+          <Route exact path="/">
+            <News setProgress={setProgressOfLoadingBar} apiKey={apiKey} key='general' pageSize={pageSize} mode={mode} country='in' category='general' />
+          </Route>
+          <Route exact path="/business">
+            <News setProgress={setProgressOfLoadingBar} apiKey={apiKey} key='business' pageSize={pageSize} mode={mode} country='in' category='business' />
+          </Route>
+          <Route exact path="/entertainment">
+            <News setProgress={setProgressOfLoadingBar} apiKey={apiKey} key='entertainment' pageSize={pageSize} mode={mode} country='in' category='entertainment' />
+          </Route>
+          <Route exact path="/health">
+            <News setProgress={setProgressOfLoadingBar} apiKey={apiKey} key='health' pageSize={pageSize} mode={mode} country='in' category='health' />
+          </Route>
+          <Route exact path="/science">
+            <News setProgress={setProgressOfLoadingBar} apiKey={apiKey} key='science' pageSize={pageSize} mode={mode} country='in' category='science' />
+          </Route>
+          <Route exact path="/sports">
+            <News setProgress={setProgressOfLoadingBar} apiKey={apiKey} key='sports' pageSize={pageSize} mode={mode} country='in' category='sports' />
+          </Route>
+          <Route exact path="/technology">
+            <News setProgress={setProgressOfLoadingBar} apiKey={apiKey} key='technology' pageSize={pageSize} mode={mode} country='in' category='technology' />
+          </Route>
+        </Switch>
+      </Router>
+    </div>
+  )
 }
+
+export default App;

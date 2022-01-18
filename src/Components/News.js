@@ -15,7 +15,8 @@ const News = (props) => {
     const capitalizeFirstLetter = (string) => {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
-    const updateNews = async (props) => {
+
+    const updateNews = async () => {
         props.setProgress(10);
         const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page}&pageSize=${props.pageSize}`;
         setLoading(true);
@@ -31,11 +32,11 @@ const News = (props) => {
 
     useEffect(() => {
         updateNews();
-    })
+    }, [])
 
-    const fetchMoreData = async (props) => {
+    const fetchMoreData = async () => {
+        const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page + 1}&pageSize=${props.pageSize}`;
         setPage(page + 1);
-        const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page}&pageSize=${props.pageSize}`;
         let data = await fetch(url).then((obj) => {
             return obj.json();
         });
@@ -45,7 +46,7 @@ const News = (props) => {
 
     return (
         <div className='container my-5'>
-            <h1 className='text-center my-5' style={{ color: props.mode === 'light' ? 'black' : 'white' }}>NewsDaily-Top {capitalizeFirstLetter(props.category)} Headlines</h1>
+            <h1 className='text-center' style={{ color: props.mode === 'light' ? 'black' : 'white', marginTop : '100px' }}>NewsDaily-Top {capitalizeFirstLetter(props.category)} Headlines</h1>
 
             {loading && <Spinner />}
 
@@ -55,7 +56,7 @@ const News = (props) => {
                 hasMore={articles.length !== totalResults}
                 loader={<Spinner />}
             >
-                <div className="container">
+                <div className="container my-5">
                     <div className="row">
                         {articles.map((element) => {
                             return <div className="col-xl-4 col-md-6 col-12 mb-3" key={element.url}>
